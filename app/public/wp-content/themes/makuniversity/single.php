@@ -23,7 +23,7 @@ while (have_posts()) {
                 </span>
             </p>
         </div>
-        <div class="generic-content"></div>
+        <div class="generic-content"><?php echo get_the_content(); ?></div>
     </div>
 <?php
 }

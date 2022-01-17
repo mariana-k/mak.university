@@ -17,12 +17,6 @@
                             'theme_location' => 'footerMenuLocation1'
                         ))
                         ?>
-                        <!--<ul>
-                            <li><a href="<?php echo site_url('/about') ?>">About Us</a></li>
-                            <li><a href="#">Programs</a></li>
-                            <li><a href="#">Events</a></li>
-                            <li><a href="#">Campuses</a></li>
-                        </ul>-->
                     </nav>
                 </div>
 
@@ -34,11 +28,6 @@
                             'theme_location' => 'footerMenuLocation2'
                         ))
                         ?>
-                        <!--<ul>
-                            <li><a href="#">Legal</a></li>
-                            <li><a href="<?php echo site_url('/privacy-policy') ?>">Privacy</a></li>
-                            <li><a href="#">Careers</a></li>
-                        </ul>-->
                     </nav>
                 </div>
             </div>
