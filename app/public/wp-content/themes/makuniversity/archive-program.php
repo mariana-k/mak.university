@@ -1,5 +1,5 @@
 <?php get_header();
-pageBanner(array(
+page_banner(array(
     'title' => 'All Programs',
     'subtitle' => 'There is something for everyone. Have a look around'
 ));

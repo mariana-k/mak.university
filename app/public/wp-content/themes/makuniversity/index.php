@@ -1,5 +1,5 @@
 <?php get_header(); 
-pageBanner(array(
+page_banner(array(
     'title' => 'Welcome to our blog!',
     'subtitle' => 'Keep up with our latest news.'
 ));

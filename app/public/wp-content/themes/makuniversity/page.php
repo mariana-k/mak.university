@@ -1,7 +1,7 @@
 <?php get_header();
 while (have_posts()) {
     the_post();
-    pageBanner(array(
+    page_banner(array(
         'title' => 'The title',
         'subtitle' => 'The subtitle'
     ));

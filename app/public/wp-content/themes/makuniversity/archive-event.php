@@ -1,5 +1,5 @@
 <?php get_header(); 
-pageBanner(array(
+page_banner(array(
     'title' => 'All Events', 
     'subtitle' => 'Events worth attending'
 ));
