@@ -19,11 +19,30 @@ while (have_posts()) {
                     Events Home
                 </a>
                 <span class="metabox__main">
-                <?php the_title(); ?>
+                    <?php the_title(); ?>
                 </span>
             </p>
         </div>
         <div class="generic-content"><?php echo get_the_content(); ?></div>
+        <hr class="section-break" />
+        <h2 class="headline headline--medium">Related Programs</h2>
+        <ul class="link-list min-list">
+            <?php
+            $relatedPrograms = get_field('related_programs');
+            if ($relatedPrograms) {
+                foreach ($relatedPrograms as $program) {
+            ?>
+                    <li>
+                        <a href="<?php echo get_the_permalink($program); ?>">
+                            <?php echo get_the_title($program); ?>
+                        </a>
+                    </li>
+            <?php
+                }
+            } else {
+                echo 'Nothing found';
+            } ?>
+        </ul>
     </div>
 <?php
 }
