@@ -4071,6 +4071,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Search {
+  // 1. properties
   constructor() {
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "events", () => {
       this.openButton.on('click', this.openOverlay.bind(this));
@@ -4079,10 +4080,33 @@ class Search {
       this.searchField.on('keyup', this.typingLogic.bind(this));
     });
 
+    (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "addSearchHtml", () => {
+      jquery__WEBPACK_IMPORTED_MODULE_1___default()('body').append(`
+        <div class="search-overlay">
+            <div class="search-overlay__top">
+                <div class="container">
+                    <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+                    <input id="search-term" autocomplete="off" type="text" class="search-term" placeholder="What are you looking for?" />
+                    <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
+                </div>
+            </div>
+            <div class="container">
+                <div id="search-overlay__results">
+                    
+                </div>
+            </div>
+        </div>
+        `);
+    });
+
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "openOverlay", () => {
       this.searchOverlay.addClass('search-overlay--active');
       jquery__WEBPACK_IMPORTED_MODULE_1___default()('body').addClass('body-no-scroll');
       this.isOverlayOpen = true;
+      this.searchField.val('');
+      setTimeout(() => {
+        this.searchField.focus();
+      }, 300);
     });
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "typingLogic", () => {
@@ -4095,7 +4119,7 @@ class Search {
             this.isSpinnerVisible = true;
           }
 
-          this.typingTimer = setTimeout(this.getResults.bind(this), 2000);
+          this.typingTimer = setTimeout(this.getResults.bind(this), 750);
         } else {
           this.resultsDiv.html('');
           this.isSpinnerVisible = false;
@@ -4106,7 +4130,19 @@ class Search {
     });
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "getResults", () => {
-      this.resultsDiv.html('Results');
+      jquery__WEBPACK_IMPORTED_MODULE_1___default().when(jquery__WEBPACK_IMPORTED_MODULE_1___default().getJSON(`${universityData.root_url}/wp-json/wp/v2/search?search=${this.searchField.val()}`)).then(posts => {
+        console.log(posts);
+        this.resultsDiv.html(`
+                <h2 class="search-overlay__section-title">Gemeral Information</h2>
+                ${posts.length ? '<ul class="link-list min-list">' : '<p>No general information mathces the search</p>'}
+                <ul class="link-list min-list">
+                    ${posts.map(post => `<li><a href="${post.url}">${post.title}</a></li>`).join('')}
+                ${'</ul>'}
+            `);
+      }, error => {
+        console.log(`An error ${error} occured`);
+        this.resultsDiv.html(`<p>Unexpected error, please try again</p>`);
+      });
       this.isSpinnerVisible = false;
     });
 
@@ -4126,7 +4162,7 @@ class Search {
       }
     });
 
-    // 1. describe and create/initiate objects
+    this.addSearchHtml();
     this.openButton = jquery__WEBPACK_IMPORTED_MODULE_1___default()('.js-search-trigger');
     this.closeButton = jquery__WEBPACK_IMPORTED_MODULE_1___default()('.search-overlay__close');
     this.searchOverlay = jquery__WEBPACK_IMPORTED_MODULE_1___default()('.search-overlay');
