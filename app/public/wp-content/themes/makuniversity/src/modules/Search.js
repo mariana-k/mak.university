@@ -78,17 +78,19 @@ class Search {
 
     getResults = () => {
         $.when(
-            $.getJSON(`${universityData.root_url}/wp-json/wp/v2/search?search=${this.searchField.val()}`)
-        ).then(posts => {
-            console.log(posts)
+            $.getJSON(`${universityData.root_url}/wp-json/wp/v2/posts?search=${this.searchField.val()}&_embed`),
+            $.getJSON(`${universityData.root_url}/wp-json/wp/v2/pages?search=${this.searchField.val()}&_embed`)
+        ).then((posts, pages) => {
+            const combinedResults = posts[0].concat(pages[0]);
+
             this.resultsDiv.html(`
                 <h2 class="search-overlay__section-title">Gemeral Information</h2>
-                ${posts.length ? '<ul class="link-list min-list">' : '<p>No general information mathces the search</p>'}
+                ${combinedResults.length ? '<ul class="link-list min-list">' : '<p>No general information mathces the search</p>'}
                 <ul class="link-list min-list">
-                    ${posts.map(post => (
-                    `<li><a href="${post.url}">${post.title}</a></li>`
-                )).join('')}
-                ${'</ul>'}
+                    ${combinedResults.map(item => (
+                `<li><a href="${item.link}">${item.title.rendered}</a> ${item.type === 'post' ? `by ${item.author_name}` : ''}</li>`
+            )).join('')}
+                ${combinedResults.length ? '</ul>' : ''}
             `);
         }, (error) => {
             console.log(`An error ${error} occured`);

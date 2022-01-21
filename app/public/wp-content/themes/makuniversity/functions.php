@@ -1,5 +1,15 @@
 <?php
 
+function university_custom_rest() {
+    register_rest_field('post', 'author_name', array(
+        'get_callback' => function() {
+            return get_the_author();
+        }
+    ));
+};
+
+add_action('rest_api_init', 'university_custom_rest');
+
 function page_banner($args = NULL)
 {
     if (!$args['title']) {

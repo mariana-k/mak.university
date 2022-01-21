@@ -4130,14 +4130,14 @@ class Search {
     });
 
     (0,_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_0__["default"])(this, "getResults", () => {
-      jquery__WEBPACK_IMPORTED_MODULE_1___default().when(jquery__WEBPACK_IMPORTED_MODULE_1___default().getJSON(`${universityData.root_url}/wp-json/wp/v2/search?search=${this.searchField.val()}`)).then(posts => {
-        console.log(posts);
+      jquery__WEBPACK_IMPORTED_MODULE_1___default().when(jquery__WEBPACK_IMPORTED_MODULE_1___default().getJSON(`${universityData.root_url}/wp-json/wp/v2/posts?search=${this.searchField.val()}&_embed`), jquery__WEBPACK_IMPORTED_MODULE_1___default().getJSON(`${universityData.root_url}/wp-json/wp/v2/pages?search=${this.searchField.val()}&_embed`)).then((posts, pages) => {
+        const combinedResults = posts[0].concat(pages[0]);
         this.resultsDiv.html(`
                 <h2 class="search-overlay__section-title">Gemeral Information</h2>
-                ${posts.length ? '<ul class="link-list min-list">' : '<p>No general information mathces the search</p>'}
+                ${combinedResults.length ? '<ul class="link-list min-list">' : '<p>No general information mathces the search</p>'}
                 <ul class="link-list min-list">
-                    ${posts.map(post => `<li><a href="${post.url}">${post.title}</a></li>`).join('')}
-                ${'</ul>'}
+                    ${combinedResults.map(item => `<li><a href="${item.link}">${item.title.rendered}</a> ${item.type === 'post' ? `by ${item.author_name}` : ''}</li>`).join('')}
+                ${combinedResults.length ? '</ul>' : ''}
             `);
       }, error => {
         console.log(`An error ${error} occured`);
